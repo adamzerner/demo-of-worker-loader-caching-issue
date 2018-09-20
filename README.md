@@ -1,21 +1,15 @@
-# demo-of-worker-loader-caching-issue
+To get started:
+- `npm install`
+- `npm run dev`
 
-> A Vue.js project
+I was trying to reproduce [this](https://stackoverflow.com/questions/52265855/service-worker-wont-install-when-i-try-to-cache-xxx-worker-js) issue, but was unable to reproduce it.
 
-## Build Setup
+Note that in order to get the dev server to return `service-worker.js` in response to `GET service-worker.js`, I had to add the following to `/node_modules/webpack-dev-server/lib/Server.js`:
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+```
+app.get('/service-worker.js', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../../', 'service-worker.js'));
+});
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Be careful when running `npm install` to make sure that it doesn't get overwritten (or if it does, to add that code back in).
